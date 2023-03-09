@@ -5,13 +5,8 @@ public class WebCamShotSnapSave : MonoBehaviour
     [SerializeField] private Camera MainCameraReference;
     [SerializeField] private float xmin, ymin;
     [SerializeField] private int xmax, ymax;
-    private void Update()
-    {
-
-        if (Input.GetKeyDown(KeyCode.S))
-            saveImage();
-    }
-    void saveImage()
+    [SerializeField] private GameObject textureObject;
+    public void saveImage()
     {
         int width = 1000;
         int height = 700;
@@ -34,7 +29,7 @@ public class WebCamShotSnapSave : MonoBehaviour
     {
         string iter = System.DateTime.UtcNow.ToLongTimeString().Replace(":", "_");
         byte[] bytes = snap.EncodeToPNG();
-        Debug.Log(Application.persistentDataPath + "/snap.png");
         System.IO.File.WriteAllBytes(string.Concat(Application.persistentDataPath + $"\\{iter}.png"), bytes);
+        LeanTween.scale(textureObject, Vector3.zero, .4f);
     }
 }

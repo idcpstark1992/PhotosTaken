@@ -14,10 +14,12 @@ public class CreateFlagDinamically : MonoBehaviour
     [SerializeField] private float RotationSpeed;
     private bool RotatePhotosHolder;
     public static Transform CameraTransform;
-    
 
+    public static int Widht;
+    public static int Height;
     private void Start()
     {
+     
         MainCameraTransform.transform.position = InitialCameraPosition;
         CameraTransform = AimPointReference;
         Vector3 m_position = Vector3.zero;
@@ -39,9 +41,15 @@ public class CreateFlagDinamically : MonoBehaviour
             LeanTween.move(MainCameraTransform.gameObject, FinalCameraPosition, .5f);
             RotatePhotosHolder = true;
         }
-            
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            EventsHolder.Event_ReturnToPosition?.Invoke();
+            LeanTween.move(MainCameraTransform.gameObject, InitialCameraPosition, .5f);
+            RotatePhotosHolder = false;
+            PhotosHolderTransform.rotation = Quaternion.Euler(Vector3.zero);
+        }
 
-        
+
     }
     private void FixedUpdate()
     {
@@ -49,6 +57,9 @@ public class CreateFlagDinamically : MonoBehaviour
             PhotosHolderTransform.Rotate(Vector3.up, RotationSpeed);
     }
 
+    private void IdleAnimation()
+    {
 
+    }
 
 }

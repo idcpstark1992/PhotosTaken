@@ -2,16 +2,24 @@
 
 public class ScriptedQuad : MonoBehaviour
 {
+    private Vector3 OriginalPosition;
+    private Quaternion OriginalRotation; 
+    [SerializeField] private SetImageOnRenderTexture renderTexture;
     private bool LookAtCamera;
     private void OnEnable()
     {
         EventsHolder.Event_OnSphere += OnSphereShape;
+        EventsHolder.Event_ReturnToPosition += OnReturnToPosition;
 
     }
     private void OnDisable()
     {
 
         EventsHolder.Event_OnSphere += OnSphereShape;
+    }
+    private void Start()
+    {
+        
     }
     public void  Init(Vector3 _position, Material _material)
     {
@@ -54,6 +62,9 @@ public class ScriptedQuad : MonoBehaviour
 
         gameObject.transform.position = _position;
         gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 180));
+        renderTexture.Init();
+        OriginalPosition = gameObject.transform.position;
+        OriginalRotation = gameObject.transform.localRotation;
     }
     private void Update()
     {
@@ -65,6 +76,12 @@ public class ScriptedQuad : MonoBehaviour
         LookAtCamera = true;
         Vector3 m_finalPosition = Random.insideUnitSphere * 4;
         LeanTween.move(gameObject, m_finalPosition, 1f);
-       // transform.localPosition = Random.insideUnitSphere * 4;
+
+    }
+    private void OnReturnToPosition()
+    {
+        LookAtCamera = false;
+        LeanTween.move(gameObject, OriginalPosition, .5f);
+        gameObject.transform.localRotation = OriginalRotation;
     }
 }

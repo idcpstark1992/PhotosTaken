@@ -4,16 +4,8 @@ public class SetImageOnRenderTexture : MonoBehaviour
 {
     [SerializeField] private RawImage imageTexture;
 
-    private void OnEnable()
+    public void Init()
     {
-        EventsHolder.SetTextures += OnTexture;
-    }
-    private void OnDisable()
-    {
-        EventsHolder.SetTextures -= OnTexture;
-    }
-    private void OnTexture (Texture2D _imageTexture)
-    {
-        imageTexture.texture = _imageTexture;
+        imageTexture.texture = Pictures.GetRandomTexture();
     }
 }

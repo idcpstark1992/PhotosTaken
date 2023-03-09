@@ -1,13 +1,11 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
-using UnityEngine.UI;
 public class Pictures : MonoBehaviour
 {
-    [SerializeField] RawImage testprint;
-    [SerializeField] private string path;
-    private List<Texture2D> TexturesList;
-    private List<string> TexturesPathList;
+    [SerializeField]private List<Texture2D> TexturesList = new ();
+    private static List<Texture2D> Txtures2d = new List<Texture2D>();
+    [SerializeField]private List<string> TexturesPathList = new ();
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +20,13 @@ public class Pictures : MonoBehaviour
         {
             TexturesList.Add(LoadPNG(item));
         }
-
-        EventsHolder.SetTextures?.Invoke(TexturesList[Random.Range(0, TexturesList.Count)]);
+        Txtures2d = TexturesList;
     }
 
-
+    public static Texture2D GetRandomTexture()
+    {
+        return Txtures2d[Random.Range(0, Txtures2d.Count)];
+    }
 
     private  Texture2D LoadPNG(string filePath)
     {
